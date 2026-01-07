@@ -36,6 +36,7 @@ import {
   drawGameOver,
   drawEnemy,
   drawPaused,
+  drawStartScreen,
 } from '../utils/renderer'
 import { audioManager } from '../utils/audio'
 
@@ -78,6 +79,7 @@ function Game() {
   const hasScoreSavedRef = useRef(false)
 
   const [isMusicEnabled, setIsMusicEnabled] = useState(true)
+  const [hasGameStarted, setHasGameStarted] = useState(false)
   const [isScoreboardOpen, setIsScoreboardOpen] = useState(false)
   const [isRulesOpen, setIsRulesOpen] = useState(false)
   const [highScores, setHighScores] = useState<Array<{ score: number; date: string }>>(() => {
@@ -159,6 +161,7 @@ function Game() {
     gameTimeRef.current = 0
     lastEnemySpawnScoreRef.current = 0
     hasScoreSavedRef.current = false
+    setHasGameStarted(false)
     forceUpdate({})
   }
 
@@ -188,15 +191,25 @@ function Game() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    if (isMusicEnabled) {
-      audioManager.playBackgroundMusic()
-    }
-
     let animationFrameId: number
 
     const gameLoop = () => {
       const gameState = gameStateRef.current
       const keys = keysRef.current
+
+      // Check if game should start
+      if (!hasGameStarted) {
+        const anyMovementKey = keys.KeyW || keys.KeyA || keys.KeyS || keys.KeyD ||
+                               keys.ArrowUp || keys.ArrowLeft || keys.ArrowDown || keys.ArrowRight ||
+                               keys.Space
+        if (anyMovementKey) {
+          setHasGameStarted(true)
+        } else {
+          drawStartScreen(ctx, CANVAS_WIDTH, CANVAS_HEIGHT)
+          animationFrameId = requestAnimationFrame(gameLoop)
+          return
+        }
+      }
 
       const now = Date.now()
       if ((keys.KeyP || keys.Escape) && now - lastPauseKeyPressRef.current > 200) {
@@ -426,7 +439,7 @@ function Game() {
     return () => {
       cancelAnimationFrame(animationFrameId)
     }
-  }, [])
+  }, [hasGameStarted])
 
   const toggleMusic = () => {
     setIsMusicEnabled(!isMusicEnabled)

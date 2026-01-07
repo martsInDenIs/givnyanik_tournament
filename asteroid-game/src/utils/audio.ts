@@ -96,6 +96,9 @@ class AudioManager {
   playBackgroundMusic(): void {
     if (!this.audioContext || !this.masterGain) return
 
+    // Stop any existing music first
+    this.stopBackgroundMusic()
+
     const notes = [
       { freq: 220, duration: 0.4 },
       { freq: 330, duration: 0.4 },

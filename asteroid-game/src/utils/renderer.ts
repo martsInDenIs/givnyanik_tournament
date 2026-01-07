@@ -144,3 +144,29 @@ export function drawPaused(
   ctx.font = '20px "Courier New", monospace'
   ctx.fillText('Press P or ESC to resume', width / 2, height / 2 + 30)
 }
+
+export function drawStartScreen(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number
+): void {
+  ctx.fillStyle = '#000'
+  ctx.fillRect(0, 0, width, height)
+
+  ctx.fillStyle = '#ff00de'
+  ctx.font = 'bold 56px "Courier New", monospace'
+  ctx.textAlign = 'center'
+  ctx.shadowColor = '#ff00de'
+  ctx.shadowBlur = 20
+  ctx.fillText('ASTEROIDS', width / 2, height / 2 - 80)
+  ctx.shadowBlur = 0
+
+  ctx.fillStyle = '#00ff88'
+  ctx.font = '24px "Courier New", monospace'
+  ctx.fillText('Press any key to start', width / 2, height / 2 + 20)
+
+  ctx.fillStyle = '#888'
+  ctx.font = '16px "Courier New", monospace'
+  ctx.fillText('WASD or Arrow Keys to move', width / 2, height / 2 + 80)
+  ctx.fillText('SPACE to shoot', width / 2, height / 2 + 110)
+}
