@@ -66,8 +66,7 @@ export function drawAsteroid(ctx: CanvasRenderingContext2D, asteroid: Asteroid):
 
 export function drawScore(
   ctx: CanvasRenderingContext2D,
-  score: number,
-  width: number
+  score: number
 ): void {
   ctx.fillStyle = '#fff'
   ctx.font = '24px "Courier New", monospace'

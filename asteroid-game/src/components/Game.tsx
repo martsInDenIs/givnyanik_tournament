@@ -75,7 +75,6 @@ function Game() {
   const gameTimeRef = useRef(0)
   const lastEnemySpawnScoreRef = useRef(0)
   const lastPauseKeyPressRef = useRef(0)
-  const musicIntervalRef = useRef<number | null>(null)
   const hasScoreSavedRef = useRef(false)
 
   const [isMusicEnabled, setIsMusicEnabled] = useState(true)
@@ -224,7 +223,7 @@ function Game() {
         }
         ctx.fillStyle = '#000'
         ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
-        drawScore(ctx, gameState.score, CANVAS_WIDTH)
+        drawScore(ctx, gameState.score)
         drawGameOver(ctx, gameState.score, CANVAS_WIDTH, CANVAS_HEIGHT)
         animationFrameId = requestAnimationFrame(gameLoop)
         return
@@ -237,7 +236,7 @@ function Game() {
         gameState.bullets.forEach((bullet) => drawBullet(ctx, bullet))
         gameState.asteroids.forEach((asteroid) => drawAsteroid(ctx, asteroid))
         gameState.enemies.forEach((enemy) => drawEnemy(ctx, enemy))
-        drawScore(ctx, gameState.score, CANVAS_WIDTH)
+        drawScore(ctx, gameState.score)
         drawPaused(ctx, CANVAS_WIDTH, CANVAS_HEIGHT)
         animationFrameId = requestAnimationFrame(gameLoop)
         return
@@ -429,7 +428,7 @@ function Game() {
       gameState.bullets.forEach((bullet) => drawBullet(ctx, bullet))
       gameState.asteroids.forEach((asteroid) => drawAsteroid(ctx, asteroid))
       gameState.enemies.forEach((enemy) => drawEnemy(ctx, enemy))
-      drawScore(ctx, gameState.score, CANVAS_WIDTH)
+      drawScore(ctx, gameState.score)
 
       animationFrameId = requestAnimationFrame(gameLoop)
     }
